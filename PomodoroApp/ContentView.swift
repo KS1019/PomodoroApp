@@ -9,18 +9,18 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var progressValue: Float = 0.0
+    @State var progressValue: Float = 0.2
     var body: some View {
         ZStack {
-            Color.yellow
+            Color.white
                 .opacity(0.1)
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
                 Spacer()
                 ProgressBar(progress: self.$progressValue)
-                    .frame(width: 150.0, height: 150.0)
-                    .padding(40.0)
+                    .frame(width: 200, height: 200)
+                    .padding(.horizontal, 10.0)
                 
                 Spacer()
             }
@@ -36,16 +36,16 @@ struct ProgressBar: View {
             Circle()
                 .stroke(lineWidth: 20.0)
                 .opacity(0.3)
-                .foregroundColor(Color.red)
+                .foregroundColor(Color.black)
             
             Circle()
                 .trim(from: 0.0, to:min( CGFloat(self.progress), 1.0))
                 .stroke(style: StrokeStyle(lineWidth: 20.0, lineCap: .round, lineJoin: .round))
-                .foregroundColor(Color.red)
+                .foregroundColor(Color.black)
                 .rotationEffect(Angle(degrees: 270.0))
                 .animation(.linear)
             
-            Text(String(format: "%.0f %%", min(self.progress, 1.0)*100.0))
+            Text(String(format: "%.0f %min", min(self.progress, 1.0)*25.0))
                 .font(.largeTitle)
                 .bold()
         }
