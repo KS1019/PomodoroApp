@@ -15,7 +15,9 @@ struct ContentView: View {
             Color.yellow
                 .opacity(0.1)
                 .edgesIgnoringSafeArea(.all)
+            
             VStack {
+                Spacer()
                 ProgressBar(progress: self.$progressValue)
                     .frame(width: 150.0, height: 150.0)
                     .padding(40.0)
