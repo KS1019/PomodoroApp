@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State var progressValue: Float = 0.2
+    @State var progressColor: Color = Color.red
     var body: some View {
         ZStack {
             Color.white
@@ -18,7 +19,7 @@ struct ContentView: View {
             
             VStack {
                 Spacer()
-                ProgressBar(progress: self.$progressValue)
+                ProgressBar(progress: self.$progressValue, color: self.$progressColor)
                     .frame(width: 200, height: 200)
                     .padding(.horizontal, 10.0)
                 
@@ -30,18 +31,19 @@ struct ContentView: View {
 
 struct ProgressBar: View {
     @Binding var progress: Float
+    @Binding var color: Color
     
     var body: some View {
         ZStack {
             Circle()
                 .stroke(lineWidth: 20.0)
                 .opacity(0.3)
-                .foregroundColor(Color.black)
+                .foregroundColor(color)
             
             Circle()
                 .trim(from: 0.0, to:min( CGFloat(self.progress), 1.0))
                 .stroke(style: StrokeStyle(lineWidth: 20.0, lineCap: .round, lineJoin: .round))
-                .foregroundColor(Color.black)
+                .foregroundColor(color)
                 .rotationEffect(Angle(degrees: 270.0))
                 .animation(.linear)
             
