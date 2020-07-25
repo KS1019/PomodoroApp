@@ -14,10 +14,6 @@ struct ContentView: View {
     @State var pomodoroFalg: PomodoroState = .finished
     var body: some View {
         ZStack {
-            Color.white
-                .opacity(0.1)
-                .edgesIgnoringSafeArea(.all)
-            
             VStack {
                 Spacer()
                 ProgressBar(progress: self.$progressValue, color: self.$progressColor)
