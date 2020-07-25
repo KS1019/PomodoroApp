@@ -11,6 +11,7 @@ import SwiftUI
 struct ContentView: View {
     @State var progressValue: Float = 0.2
     @State var progressColor: Color = Color.red
+    @State var pomodoroFalg: PomodoroState = .finished
     var body: some View {
         ZStack {
             Color.white
@@ -58,4 +59,11 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
+}
+
+enum PomodoroState {
+    case working
+    case inRest
+    case finished
+    case interrupted
 }
