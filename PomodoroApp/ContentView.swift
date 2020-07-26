@@ -11,19 +11,48 @@ import SwiftUI
 struct ContentView: View {
     @State var progressValue: Float = 0.2
     @State var progressColor: Color = Color.red
-    @State var pomodoroFalg: PomodoroState = .finished
+    @State var pomodoroFlag: PomodoroState = .finished
     var body: some View {
         ZStack {
+            Color.offWhite
+                .edgesIgnoringSafeArea(.all)
             VStack {
                 Spacer()
-                ProgressBar(progress: self.$progressValue, color: self.$progressColor)
-                    .frame(width: 200, height: 200)
-                    .padding(.horizontal, 10.0)
-                
+                if pomodoroFlag == .finished {
+                    Button(action: {
+                        print("Hello \(self.pomodoroFlag)")
+                        self.pomodoroFlag = .working
+                    }) {
+                        ZStack {
+                            Circle()
+                                .fill(Color.offWhite)
+                                .frame(width: 200, height: 200)
+                                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 10, y: 10)
+                                .shadow(color: Color.white.opacity(0.7), radius: 10, x: -5, y: -5)
+                            Text("Hello")
+                        }
+                    }
+                } else if pomodoroFlag == .inRest || pomodoroFlag == .working {
+                    ProgressBar(progress: self.$progressValue, color: self.$progressColor)
+                        .frame(width: 200, height: 200)
+                        .padding(.horizontal, 10.0)
+                        .onAppear {
+                            print("h \(self.pomodoroFlag)")
+                    }
+                } else {
+                    
+                }
                 Spacer()
             }
         }
+        .onAppear {
+            print("Hlo \(self.pomodoroFlag)")
+        }
     }
+}
+
+extension Color {
+    static let offWhite = Color(red: 225 / 255, green: 225 / 255, blue: 235 / 255)
 }
 
 struct ProgressBar: View {
