@@ -11,7 +11,7 @@ import SwiftUI
 struct ContentView: View {
     @State var progressValue: Float = 0.2
     @State var progressColor: Color = Color.red
-    @State var pomodoroFlag: PomodoroState = .finished
+    @State var pomodoroFlag: PomodoroState = .working
     var body: some View {
         ZStack {
             Color.offWhite
@@ -29,13 +29,18 @@ struct ContentView: View {
                                 .frame(width: 200, height: 200)
                                 .shadow(color: Color.black.opacity(0.2), radius: 10, x: 10, y: 10)
                                 .shadow(color: Color.white.opacity(0.7), radius: 10, x: -5, y: -5)
-                            Text("Hello")
+                            Text("Start")
+                                .foregroundColor(.black)
+                                .font(.largeTitle)
+                                .bold()
                         }
                     }
                 } else if pomodoroFlag == .inRest || pomodoroFlag == .working {
                     ProgressBar(progress: self.$progressValue, color: self.$progressColor)
                         .frame(width: 200, height: 200)
                         .padding(.horizontal, 10.0)
+                        .shadow(color: Color.black.opacity(0.2), radius: 10, x: 10, y: 10)
+                        .shadow(color: Color.white.opacity(0.7), radius: 10, x: -5, y: -5)
                         .onAppear {
                             print("h \(self.pomodoroFlag)")
                     }
@@ -62,11 +67,16 @@ struct ProgressBar: View {
     var body: some View {
         ZStack {
             Circle()
+                .fill(Color.offWhite)
+                
+            Circle()
+                .scale(0.83)
                 .stroke(lineWidth: 20.0)
                 .opacity(0.3)
                 .foregroundColor(color)
             
             Circle()
+                .scale(0.83)
                 .trim(from: 0.0, to:min( CGFloat(self.progress), 1.0))
                 .stroke(style: StrokeStyle(lineWidth: 20.0, lineCap: .round, lineJoin: .round))
                 .foregroundColor(color)
