@@ -9,9 +9,15 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var progressValue: Float = 0.2
+    @State var progressValue: Double = 0
     @State var progressColor: Color = Color.red
-    @State var pomodoroFlag: PomodoroState = .working
+    @State var pomodoroFlag: PomodoroState = .finished
+    @State var pomodoroCount: Int = 0
+    @State var pomodoroLimit: Int = 4
+    var workingSessionTime:TimeInterval = 60 * 25
+    var restSessionTime:TimeInterval = 60 * 5
+    let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+    @State var secondsPassed: TimeInterval = 0
     var body: some View {
         ZStack {
             Color.offWhite
@@ -21,7 +27,7 @@ struct ContentView: View {
                 if pomodoroFlag == .finished {
                     Button(action: {
                         print("Hello \(self.pomodoroFlag)")
-                        self.pomodoroFlag = .working
+                        self.changeState(to: .working)
                     }) {
                         ZStack {
                             Circle()
@@ -33,25 +39,55 @@ struct ContentView: View {
                                 .foregroundColor(.black)
                                 .font(.largeTitle)
                                 .bold()
+                            
                         }
                     }
                 } else if pomodoroFlag == .inRest || pomodoroFlag == .working {
-                    ProgressBar(progress: self.$progressValue, color: self.$progressColor)
-                        .frame(width: 200, height: 200)
-                        .padding(.horizontal, 10.0)
-                        .shadow(color: Color.black.opacity(0.2), radius: 10, x: 10, y: 10)
-                        .shadow(color: Color.white.opacity(0.7), radius: 10, x: -5, y: -5)
-                        .onAppear {
-                            print("h \(self.pomodoroFlag)")
+                    ZStack {
+                        ProgressBar(progress: self.$progressValue, color: self.$progressColor)
+                            .frame(width: 200, height: 200)
+                            .padding(.horizontal, 10.0)
+                            .shadow(color: Color.black.opacity(0.2), radius: 10, x: 10, y: 10)
+                            .shadow(color: Color.white.opacity(0.7), radius: 10, x: -5, y: -5)
+                            .onReceive(timer, perform: { (timer) in
+                                print("Timer: \(timer)")
+                                self.secondsPassed+=0.1
+                                self.progressValue = self.secondsPassed / self.workingSessionTime
+                                if self.progressValue >= 1 {
+                                    self.changeState(to: (self.pomodoroFlag == .working ? .inRest : .working))
+                                }
+                            })
+                        if pomodoroFlag == .working {
+                            Text(String(format: "%.0f %min", floor(min(self.progressValue, 1.0)*workingSessionTime / 60)))
+                            .font(.largeTitle)
+                            .bold()
+                        } else if pomodoroFlag == .inRest {
+                            Text(String(format: "%.0f %min", floor(min(self.progressValue, 1.0)*restSessionTime / 60)))
+                                .font(.largeTitle)
+                                .bold()
+                        }
                     }
-                } else {
-                    
                 }
                 Spacer()
             }
         }
-        .onAppear {
-            print("Hlo \(self.pomodoroFlag)")
+    }
+    
+    func changeState(to state: PomodoroState) {
+        pomodoroFlag = state
+        progressValue = 0
+        secondsPassed = 0
+        if state == .working {
+            progressColor = Color.red
+        } else if state == .inRest {
+            pomodoroCount += 1
+            if pomodoroCount < pomodoroLimit {
+                print("pomodoroCount: \(pomodoroCount)")
+                progressColor = Color.black
+            } else {
+                print("Last cycle")
+                changeState(to: .finished)
+            }
         }
     }
 }
@@ -61,7 +97,7 @@ extension Color {
 }
 
 struct ProgressBar: View {
-    @Binding var progress: Float
+    @Binding var progress: Double
     @Binding var color: Color
     
     var body: some View {
@@ -82,10 +118,6 @@ struct ProgressBar: View {
                 .foregroundColor(color)
                 .rotationEffect(Angle(degrees: 270.0))
                 .animation(.linear)
-            
-            Text(String(format: "%.0f %min", min(self.progress, 1.0)*25.0))
-                .font(.largeTitle)
-                .bold()
         }
     }
 }
