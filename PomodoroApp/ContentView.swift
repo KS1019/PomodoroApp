@@ -14,6 +14,8 @@ struct ContentView: View {
     @State var pomodoroFlag: PomodoroState = .finished
     @State var pomodoroCount: Int = 0
     @State var pomodoroLimit: Int = 4
+    @State var showingDetail = false
+
     var workingSessionTime:TimeInterval = 60 * 25
     var restSessionTime:TimeInterval = 60 * 5
     let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
@@ -23,6 +25,20 @@ struct ContentView: View {
             Color.offWhite
                 .edgesIgnoringSafeArea(.all)
             VStack {
+                HStack {
+                    Button(action: {
+                        self.showingDetail.toggle()
+                    }) {
+                        Image(systemName: "gear")
+                            .font(.system(size: 30))
+                            .foregroundColor(.black)
+                            .padding()
+                    }
+                    .sheet(isPresented: $showingDetail) {
+                        DetailView(showingDetail: self.$showingDetail)
+                    }
+                    Spacer()
+                }
                 Spacer()
                 if pomodoroFlag == .finished {
                     Button(action: {
@@ -59,10 +75,10 @@ struct ContentView: View {
                             })
                         if pomodoroFlag == .working {
                             Text(String(format: "%.0f%:%.0f %", floor(min(self.progressValue, 1.0)*workingSessionTime / 60), (min(self.progressValue, 1.0)*workingSessionTime).remainder(dividingBy: 60)))
-                            .font(.largeTitle)
-                            .bold()
+                                .font(.largeTitle)
+                                .bold()
                         } else if pomodoroFlag == .inRest {
-                                Text(String(format: "%.0f%:%.0f %", floor(min(self.progressValue, 1.0)*restSessionTime / 60), (min(self.progressValue, 1.0)*restSessionTime).remainder(dividingBy: 60)))
+                            Text(String(format: "%.0f%:%.0f %", floor(min(self.progressValue, 1.0)*restSessionTime / 60), (min(self.progressValue, 1.0)*restSessionTime).remainder(dividingBy: 60)))
                                 .font(.largeTitle)
                                 .bold()
                         }
@@ -70,6 +86,7 @@ struct ContentView: View {
                 }
                 Spacer()
             }
+            
         }
     }
     
@@ -104,7 +121,7 @@ struct ProgressBar: View {
         ZStack {
             Circle()
                 .fill(Color.offWhite)
-                
+            
             Circle()
                 .scale(0.83)
                 .stroke(lineWidth: 20.0)
@@ -118,6 +135,26 @@ struct ProgressBar: View {
                 .foregroundColor(color)
                 .rotationEffect(Angle(degrees: 270.0))
                 .animation(.linear)
+        }
+    }
+}
+
+struct DetailView: View {
+    @Binding var showingDetail: Bool
+    var body: some View {
+        VStack {
+            HStack {
+                Button(action: {
+                    self.showingDetail.toggle()
+                }) {
+                    Text("Cancel")
+                        .font(.system(size: 15))
+                        .foregroundColor(.black)
+                        .padding()
+                }
+                Spacer()
+            }
+            Spacer()
         }
     }
 }
