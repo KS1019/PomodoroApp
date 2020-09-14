@@ -46,6 +46,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillResignActive(_ scene: UIScene) {
         // Called when the scene will move from an active state to an inactive state.
         // This may occur due to temporary interruptions (ex. an incoming phone call).
+        UNUserNotificationCenter.current().add(NotificationHandler.shared.requestLocalNotification(after: 10))
+        print("Test sceneWillResignActive")
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
@@ -57,6 +59,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+        UNUserNotificationCenter.current().add(NotificationHandler.shared.requestLocalNotification(after: 10))
+        print("Test sceneDidEnterBackground")
     }
 
 
