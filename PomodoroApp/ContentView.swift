@@ -38,7 +38,6 @@ struct ContentView: View {
                             .padding()
                     }
                     .sheet(isPresented: $showingDetail) {
-//                        DetailView(showingDetail: $showingDetail)
                         DetailView(showingDetail: $showingDetail,
                                    pomodoroLimitNum: $pomodoroLimit,
                                    pomodoroWorkingTime: $workingTime,
