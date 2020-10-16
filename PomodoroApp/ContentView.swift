@@ -16,6 +16,8 @@ struct ContentView: View {
     @State var pomodoroCount: Int = 0
     @State var pomodoroLimit: Int = 4
     @State var showingDetail = false
+    @State var workingTime = 25
+    @State var restTime = 5
 
     var workingSessionTime:TimeInterval = 60 * 25
     var restSessionTime:TimeInterval = 60 * 5
@@ -36,7 +38,11 @@ struct ContentView: View {
                             .padding()
                     }
                     .sheet(isPresented: $showingDetail) {
-                        DetailView(showingDetail: self.$showingDetail)
+//                        DetailView(showingDetail: $showingDetail)
+                        DetailView(showingDetail: $showingDetail,
+                                   pomodoroLimitNum: $pomodoroLimit,
+                                   pomodoroWorkingTime: $workingTime,
+                                   pomodoroRestTime: $restTime)
                     }
                     Spacer()
                 }
@@ -149,6 +155,9 @@ struct ProgressBar: View {
 
 struct DetailView: View {
     @Binding var showingDetail: Bool
+    @Binding var pomodoroLimitNum: Int
+    @Binding var pomodoroWorkingTime: Int
+    @Binding var pomodoroRestTime: Int
     var body: some View {
         VStack {
             HStack {
@@ -161,6 +170,16 @@ struct DetailView: View {
                         .padding()
                 }
                 Spacer()
+            }
+            
+            Stepper(value: $pomodoroLimitNum, in: 4...10) {
+                Text("\(pomodoroLimitNum)回 ポモドロをします")
+            }
+            Stepper(value: $pomodoroWorkingTime, in: 20...30) {
+                Text("\(pomodoroWorkingTime)分 タスクをします")
+            }
+            Stepper(value: $pomodoroRestTime, in: 4...10) {
+                Text("\(pomodoroRestTime)分 休憩します")
             }
             Spacer()
         }
