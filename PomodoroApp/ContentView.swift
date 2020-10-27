@@ -38,10 +38,10 @@ struct ContentView: View {
                             .padding()
                     }
                     .sheet(isPresented: $showingDetail) {
-                        DetailView(showingDetail: $showingDetail,
-                                   pomodoroLimitNum: $pomodoroLimit,
-                                   pomodoroWorkingTime: $workingTime,
-                                   pomodoroRestTime: $restTime)
+                        DetailView(showingDetail: self.$showingDetail,
+                                   pomodoroLimitNum: self.$pomodoroLimit,
+                                   pomodoroWorkingTime: self.$workingTime,
+                                   pomodoroRestTime: self.$restTime)
                     }
                     Spacer()
                 }
