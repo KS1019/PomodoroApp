@@ -87,11 +87,11 @@ struct ContentView: View {
                                 }
                             })
                         if pomodoroFlag == .working {
-                            Text(String(format: "%.0f%:%.0f %", floor(min(self.progressValue, 1.0)*workingSessionTime / 60), (min(self.progressValue, 1.0)*workingSessionTime).remainder(dividingBy: 60)))
+                            Text(String(format: "%.0f%:%.0f %", floor(min(self.progressValue, 1.0)*workingSessionTime / 60), (min(self.progressValue, 1.0)*workingSessionTime).truncatingRemainder(dividingBy: 60)))
                                 .font(.largeTitle)
                                 .bold()
                         } else if pomodoroFlag == .inRest {
-                            Text(String(format: "%.0f%:%.0f %", floor(min(self.progressValue, 1.0)*restSessionTime / 60), (min(self.progressValue, 1.0)*restSessionTime).remainder(dividingBy: 60)))
+                            Text(String(format: "%.0f%:%.0f %", floor(min(self.progressValue, 1.0)*restSessionTime / 60), (min(self.progressValue, 1.0)*restSessionTime).truncatingRemainder(dividingBy: 60)))
                                 .font(.largeTitle)
                                 .bold()
                         }
