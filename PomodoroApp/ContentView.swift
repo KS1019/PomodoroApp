@@ -18,9 +18,13 @@ struct ContentView: View {
     @State var showingDetail = false
     @State var workingTime = 25
     @State var restTime = 5
+    
+    // Variables for Timer Formatting
+    @State var minutes: Int = 0
+    @State var seconds: Int = 0
 
-    var workingSessionTime:TimeInterval = 60 * 25
-    var restSessionTime:TimeInterval = 60 * 5
+    let workingSessionTime:TimeInterval = 60 * 25
+    let restSessionTime:TimeInterval = 60 * 5
     let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
     @State var secondsPassed: TimeInterval = 0
     var body: some View {
@@ -81,20 +85,21 @@ struct ContentView: View {
                             .onReceive(timer, perform: { (timer) in
                                 print("Timer: \(timer)")
                                 self.secondsPassed+=0.1
-                                self.progressValue = self.secondsPassed / self.workingSessionTime
+                                self.minutes = Int(self.secondsPassed / 60)
+                                self.seconds = Int(self.secondsPassed) % 60
+                                if self.pomodoroFlag == .working {
+                                    self.progressValue = self.secondsPassed / self.workingSessionTime
+                                } else if self.pomodoroFlag == .inRest {
+                                    self.progressValue = self.secondsPassed / self.restSessionTime
+                                }
                                 if self.progressValue >= 1 {
                                     self.changeState(to: (self.pomodoroFlag == .working ? .inRest : .working))
                                 }
                             })
-                        if pomodoroFlag == .working {
-                            Text(String(format: "%.0f%:%.0f %", floor(min(self.progressValue, 1.0)*workingSessionTime / 60), (min(self.progressValue, 1.0)*workingSessionTime).truncatingRemainder(dividingBy: 60)))
-                                .font(.largeTitle)
-                                .bold()
-                        } else if pomodoroFlag == .inRest {
-                            Text(String(format: "%.0f%:%.0f %", floor(min(self.progressValue, 1.0)*restSessionTime / 60), (min(self.progressValue, 1.0)*restSessionTime).truncatingRemainder(dividingBy: 60)))
-                                .font(.largeTitle)
-                                .bold()
-                        }
+                        
+                        Text(String(format:"%02i:%02i", minutes, seconds))
+                            .font(.largeTitle)
+                            .bold()
                     }
                 }
                 Spacer()
@@ -107,6 +112,8 @@ struct ContentView: View {
         pomodoroFlag = state
         progressValue = 0
         secondsPassed = 0
+        minutes = 0
+        seconds = 0
         if state == .working {
             progressColor = Color.red
         } else if state == .inRest {
