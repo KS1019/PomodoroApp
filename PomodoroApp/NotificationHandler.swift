@@ -54,4 +54,11 @@ class NotificationHandler {
         
         return request
     }
+    
+    func add(notificationRequest: UNNotificationRequest) {
+        center.add(notificationRequest) { (error) in
+            guard let err = error else { return }
+            print("Error : \(err.localizedDescription) occured in \(#function)")
+        }
+    }
 }
