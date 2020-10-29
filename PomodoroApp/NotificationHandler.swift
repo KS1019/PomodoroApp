@@ -11,6 +11,18 @@ import UserNotifications
 
 class NotificationHandler {
     static let shared = NotificationHandler()
+    private let center = UNUserNotificationCenter.current()
+    init() {
+        center.getNotificationSettings { (settings) in
+            if settings.authorizationStatus != .authorized {
+                self.center.requestAuthorization(options: [.alert]) { (success, error) in
+                    if !success {
+                        print("Error : \(String(describing: error?.localizedDescription))")
+                    }
+                }
+            }
+        }
+    }
     
     func requestLocalNotification(after: TimeInterval = 0) -> UNNotificationRequest {
         let now = Date()

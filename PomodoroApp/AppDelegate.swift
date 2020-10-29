@@ -34,13 +34,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
-        UNUserNotificationCenter.current().add(NotificationHandler.shared.requestLocalNotification(after: 10))
-        print("Test")
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
-        UNUserNotificationCenter.current().add(NotificationHandler.shared.requestLocalNotification(after: 10))
-        print("Test")
     }
 }
 

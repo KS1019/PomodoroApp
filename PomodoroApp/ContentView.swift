@@ -54,13 +54,6 @@ struct ContentView: View {
                     Button(action: {
                         print("Hello \(self.pomodoroFlag)")
                         self.changeState(to: .working)
-                        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
-                            if success {
-                                print("All set!")
-                            } else if let error = error {
-                                print(error.localizedDescription)
-                            }
-                        }
                     }) {
                         ZStack {
                             Circle()
