@@ -32,23 +32,6 @@ struct ContentView: View {
             Color.offWhite
                 .edgesIgnoringSafeArea(.all)
             VStack {
-                HStack {
-                    Button(action: {
-                        self.showingDetail.toggle()
-                    }) {
-                        Image(systemName: "gear")
-                            .font(.system(size: 30))
-                            .foregroundColor(.black)
-                            .padding()
-                    }
-                    .sheet(isPresented: $showingDetail) {
-                        DetailView(showingDetail: self.$showingDetail,
-                                   pomodoroLimitNum: self.$pomodoroLimit,
-                                   pomodoroWorkingTime: self.$workingTime,
-                                   pomodoroRestTime: self.$restTime)
-                    }
-                    Spacer()
-                }
                 Spacer()
                 if pomodoroFlag == .finished {
                     Button(action: {
@@ -97,7 +80,26 @@ struct ContentView: View {
                 }
                 Spacer()
             }
-            
+            VStack {
+                HStack {
+                    Button(action: {
+                        self.showingDetail.toggle()
+                    }) {
+                        Image(systemName: "gear")
+                            .font(.system(size: 30))
+                            .foregroundColor(.black)
+                            .padding()
+                    }
+                    .sheet(isPresented: $showingDetail) {
+                        DetailView(showingDetail: self.$showingDetail,
+                                   pomodoroLimitNum: self.$pomodoroLimit,
+                                   pomodoroWorkingTime: self.$workingTime,
+                                   pomodoroRestTime: self.$restTime)
+                    }
+                    Spacer()
+                }
+                Spacer()
+            }
         }
     }
     
