@@ -61,4 +61,16 @@ class NotificationHandler {
             print("Error : \(err.localizedDescription) occured in \(#function)")
         }
     }
+    
+    func askPermission() {
+        center.getNotificationSettings { (settings) in
+            if settings.authorizationStatus != .authorized {
+                self.center.requestAuthorization(options: [.alert]) { (success, error) in
+                    if !success {
+                        print("Error : \(String(describing: error?.localizedDescription))")
+                    }
+                }
+            }
+        }
+    }
 }

@@ -36,7 +36,7 @@ struct ContentView: View {
                 if pomodoroFlag == .finished {
                     Button(action: {
                         print("Hello \(self.pomodoroFlag)")
-                        NotificationHandler.shared.add(notificationRequest: NotificationHandler.shared.requestLocalNotification(after: 10))
+                        NotificationHandler.shared.askPermission()
                         self.changeState(to: .working)
                     }) {
                         ZStack {
