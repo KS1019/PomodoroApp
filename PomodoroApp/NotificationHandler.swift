@@ -35,7 +35,7 @@ class NotificationHandler {
                                         second: Calendar.current.component(.second, from: requestTime!))
     }
     
-    func requestLocalNotification(title:String = "", message:String, month: Int, day: Int,hour:Int = 9, minute:Int = 0, second:Int = 0 ) -> UNNotificationRequest {
+    func requestLocalNotification(requestID: String = "Pomodoro", title:String = "", message:String, month: Int, day: Int,hour:Int = 9, minute:Int = 0, second:Int = 0) -> UNNotificationRequest {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = message
@@ -50,7 +50,7 @@ class NotificationHandler {
         
         let trigger: UNNotificationTrigger = UNCalendarNotificationTrigger(dateMatching: notificationTime, repeats: false)
         
-        let request = UNNotificationRequest(identifier: "Pomodoro", content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier: requestID, content: content, trigger: trigger)
         
         return request
     }
