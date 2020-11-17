@@ -18,16 +18,16 @@ struct ContentView: View {
     @State var showingDetail = false
     
     //時間
-    @State var workingTime = 1
-    @State var restTime = 1
+    @State var workingTime = 25
+    @State var restTime = 5
     
     // Variables for Timer Formatting
     @State var minutes: Int = 0
     @State var seconds: Int = 0
     
     //時間
-    let workingSessionTime:TimeInterval = 60 * 1
-    let restSessionTime:TimeInterval = 60 * 1
+    let workingSessionTime:TimeInterval = 60 * 25
+    let restSessionTime:TimeInterval = 60 * 5
     let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
     @State var secondsPassed: TimeInterval = 0
     var body: some View {
@@ -220,8 +220,8 @@ class StateHandler {
     var endingDate: Date = Date()
     
     //時間
-    let workingTimeMinutes = 1
-    let restTimeMinutes = 1
+    let workingTimeMinutes = 25
+    let restTimeMinutes = 5
     
     var secondsPassed: TimeInterval = 0
     var passedPhasesCount: Int = 0
