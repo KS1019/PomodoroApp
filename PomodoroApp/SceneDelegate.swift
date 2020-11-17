@@ -42,6 +42,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
         print("Test sceneDidBecomeActive")
+        StateHandler.shared.becomeActive(at: Date())
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
@@ -49,6 +50,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This may occur due to temporary interruptions (ex. an incoming phone call).
 //        UNUserNotificationCenter.current().add(NotificationHandler.shared.requestLocalNotification(after: 10))
         print("Test sceneWillResignActive")
+        StateHandler.shared.becomeInactive(at: Date())
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
