@@ -35,6 +35,21 @@ class NotificationHandler {
                                         second: Calendar.current.component(.second, from: requestTime!))
     }
     
+    func requestLocalNotification(requestID: String,
+                                  title: String,
+                                  message: String,
+                                  after: TimeInterval = 10,
+                                  repeats: Bool = false) -> UNNotificationRequest {
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.body = message
+        content.sound = UNNotificationSound.default
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: after, repeats: repeats)
+        let request = UNNotificationRequest(identifier: requestID, content: content, trigger: trigger)
+        return request
+    }
+    
     func requestLocalNotification(requestID: String = "Pomodoro", title:String = "", message:String, month: Int, day: Int,hour:Int = 9, minute:Int = 0, second:Int = 0) -> UNNotificationRequest {
         let content = UNMutableNotificationContent()
         content.title = title
@@ -72,5 +87,13 @@ class NotificationHandler {
                 }
             }
         }
+    }
+    
+    func cancelAllPendingNotifications() {
+        center.removeAllPendingNotificationRequests()
+    }
+    
+    func cancelPendingNotifications(with identifiers: [String]) {
+        center.removePendingNotificationRequests(withIdentifiers: identifiers)
     }
 }
