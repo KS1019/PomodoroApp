@@ -16,15 +16,18 @@ struct ContentView: View {
     @State var pomodoroCount: Int = 0
     @State var pomodoroLimit: Int = 4
     @State var showingDetail = false
-    @State var workingTime = 25
-    @State var restTime = 5
+    
+    //時間
+    @State var workingTime = 1
+    @State var restTime = 1
     
     // Variables for Timer Formatting
     @State var minutes: Int = 0
     @State var seconds: Int = 0
-
-    let workingSessionTime:TimeInterval = 60 * 25
-    let restSessionTime:TimeInterval = 60 * 5
+    
+    //時間
+    let workingSessionTime:TimeInterval = 60 * 1
+    let restSessionTime:TimeInterval = 60 * 1
     let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
     @State var secondsPassed: TimeInterval = 0
     var body: some View {
@@ -38,6 +41,7 @@ struct ContentView: View {
                         print("Hello \(self.pomodoroFlag)")
                         NotificationHandler.shared.askPermission()
                         self.changeState(to: .working)
+                        StateHandler.shared.setEndingDate(on: Date().addingTimeInterval(workingSessionTime * 4 + restSessionTime * 3))
                     }) {
                         ZStack {
                             Circle()
@@ -61,7 +65,9 @@ struct ContentView: View {
                             .shadow(color: Color.white.opacity(0.7), radius: 10, x: -5, y: -5)
                             .onReceive(timer, perform: { (timer) in
                                 print("Timer: \(timer)")
+                                self.secondsPassed += StateHandler.shared.returnSecondsPassed()
                                 self.secondsPassed+=0.1
+                                StateHandler.shared.secondsPassed = self.secondsPassed
                                 self.minutes = Int(self.secondsPassed / 60)
                                 self.seconds = Int(self.secondsPassed) % 60
                                 if self.pomodoroFlag == .working {
@@ -105,6 +111,7 @@ struct ContentView: View {
     }
     
     func changeState(to state: PomodoroState) {
+        StateHandler.shared.changeState(to: state)
         pomodoroFlag = state
         progressValue = 0
         secondsPassed = 0
@@ -114,6 +121,7 @@ struct ContentView: View {
             progressColor = Color.red
         } else if state == .inRest {
             pomodoroCount += 1
+            StateHandler.shared.addPhaseCount(by: 1)
             if pomodoroCount < pomodoroLimit {
                 print("pomodoroCount: \(pomodoroCount)")
                 progressColor = Color.black
@@ -199,4 +207,134 @@ enum PomodoroState {
     case inRest
     case finished
     case interrupted
+}
+
+class StateHandler {
+    static let shared = StateHandler()
+    
+    var becameInactiveAt: Date = Date()
+    var becameActiveAt: Date = Date()
+    var currentState: PomodoroState = .finished
+    var secondsUntilNextPhase: TimeInterval = 0
+    
+    var endingDate: Date = Date()
+    
+    //時間
+    let workingTimeMinutes = 1
+    let restTimeMinutes = 1
+    
+    var secondsPassed: TimeInterval = 0
+    var passedPhasesCount: Int = 0
+    
+    var secondsToBeAdded: TimeInterval = 0
+    
+    var paris: KeyValuePairs<String, Bool> = [:]
+    
+    func changeState(to state: PomodoroState) {
+        currentState = state
+    }
+    
+    func addPhaseCount(by count: Int) {
+        passedPhasesCount += count
+    }
+    
+    func setEndingDate(on endDate: Date) {
+        endingDate = endDate
+    }
+    
+    func becomeInactive(at: Date) {
+        becameInactiveAt = at
+        var totalSecondsAdded: TimeInterval = 0
+        if currentState == .working {
+            secondsUntilNextPhase = Double(workingTimeMinutes * 60) - secondsPassed
+            
+            // secondsUntilNextPhase秒後に休憩中の通知
+            totalSecondsAdded += secondsUntilNextPhase
+            setRestNotification(after: totalSecondsAdded)
+            
+            // totalSecondsAdded + restTimeMinutes*60秒後にタスク中の通知
+            totalSecondsAdded += Double(restTimeMinutes*60)
+            setWorkNotification(after: totalSecondsAdded)
+        } else if currentState == .inRest {
+            secondsUntilNextPhase = Double(restTimeMinutes * 60) - secondsPassed
+            // secondsUntilNextPhase秒後にタスク中の通知
+            totalSecondsAdded += secondsUntilNextPhase
+            setWorkNotification(after: totalSecondsAdded)
+        }
+        
+        let numOfPhasesLeft = 3 - passedPhasesCount
+        for i in 0 ..< numOfPhasesLeft {
+            if i == numOfPhasesLeft - 1 {
+                //totalSecondsAdded + workingTimeMinutes*60秒後に終了の通知
+                totalSecondsAdded += Double(workingTimeMinutes*60)
+                setNotification(title: "ポモドーロ終了", msg: "ポモドーロサイクルが終了しました。さらに続ける場合はアプリを起動して下さい。", after: totalSecondsAdded)
+            } else {
+                //totalSecondsAdded + workingTimeMinutes*60秒後に休憩中の通知
+                totalSecondsAdded += Double(workingTimeMinutes*60)
+                setRestNotification(after: totalSecondsAdded)
+                //totalSecondsAdded + restTimeMinutes*60秒後にタスク中の通知
+                totalSecondsAdded += Double(restTimeMinutes*60)
+                setWorkNotification(after: totalSecondsAdded)
+            }
+        }
+        
+    }
+    
+    func becomeActive(at: Date) {
+        becameActiveAt = at
+        let inactiveTime = becameActiveAt.timeIntervalSince(becameInactiveAt)
+        
+        NotificationHandler.shared.cancelAllPendingNotifications()
+        secondsToBeAdded = inactiveTime
+//        if inactiveTime < secondsUntilNextPhase {
+//            //フェーズが変わる前に復帰
+//            NotificationHandler.shared.cancelAllPendingNotifications()
+//            //すべての残り時間を調整
+//            secondsToBeAdded = inactiveTime
+//        } else if Date() > endingDate {
+//            //フェーズが全て終了後に復帰
+//            //すべての残り時間を調整
+//            secondsToBeAdded = inactiveTime
+//        } else {
+//            //Dictionaryで通知やフェーズが終了してるかを管理
+//            //https://dev.classmethod.jp/articles/about-swiftkeyvaluepairs/
+//            //https://developer.apple.com/documentation/swift/keyvaluepairs
+//        }
+    }
+    
+    func returnSecondsPassed() -> TimeInterval {
+        if secondsToBeAdded > 0 {
+            let temp = secondsToBeAdded
+            secondsToBeAdded = 0
+            return temp
+        }
+        
+        return 0
+    }
+    
+    func setNotification(title: String, msg: String, after: TimeInterval) {
+        let uuid = UUID().uuidString
+        let req = NotificationHandler.shared.requestLocalNotification(requestID: uuid, title: title, message: msg, after: after)
+        
+        NotificationHandler.shared.add(notificationRequest: req)
+    }
+    
+    func setRestNotification(after: TimeInterval) {
+        setNotification(title: "休憩の時間です！", msg: "\(restTimeMinutes)分間の休息をとりましょう。", after: after)
+    }
+    
+    func setWorkNotification(after: TimeInterval) {
+        setNotification(title: "タスクの時間です！", msg: "\(workingTimeMinutes)分間、頑張りましょう。", after: after)
+    }
+}
+
+struct PomodoroStateStruct {
+    var currentState: PomodoroState = .finished
+    var pomodoroLimit: Int = 4
+    var pomodoroCount: Int = 0
+    var secondsPassed: TimeInterval = 0
+    var secondsUntilNext: TimeInterval = 0
+    var phasesPassed: Int = 0
+    var phasesLeft: Int = 0
+    var endsAt: Date = Date()
 }
