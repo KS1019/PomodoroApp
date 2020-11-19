@@ -10,6 +10,8 @@
 	<string>AIzaSyD9eeC4C5mPv8usyZ7-OyMn5wgAFkmNxJk</string>
 	<key>GCM_SENDER_ID</key>
 	<string>545019460026</string>
+    <key>GADApplicationIdentifier</key>
+    <string>ca-app-pub-3940256099942544~1458002511</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
