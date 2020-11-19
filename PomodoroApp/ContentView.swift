@@ -42,6 +42,8 @@ struct ContentView: View {
                         NotificationHandler.shared.askPermission()
                         self.changeState(to: .working)
                         StateHandler.shared.setEndingDate(on: Date().addingTimeInterval(workingSessionTime * 4 + restSessionTime * 3))
+                        StateHandler.shared.setWorkingTimeMinutes(min: workingTime)
+                        StateHandler.shared.setRestTimeMinutes(min: restTime)
                     }) {
                         ZStack {
                             Circle()
@@ -101,7 +103,8 @@ struct ContentView: View {
                         DetailView(showingDetail: self.$showingDetail,
                                    pomodoroLimitNum: self.$pomodoroLimit,
                                    pomodoroWorkingTime: self.$workingTime,
-                                   pomodoroRestTime: self.$restTime)
+                                   pomodoroRestTime: self.$restTime,
+                                   currentState: self.$pomodoroFlag)
                     }
                     Spacer()
                 }
@@ -168,6 +171,7 @@ struct DetailView: View {
     @Binding var pomodoroLimitNum: Int
     @Binding var pomodoroWorkingTime: Int
     @Binding var pomodoroRestTime: Int
+    @Binding var currentState: PomodoroState
     var body: some View {
         VStack {
             HStack {
@@ -181,16 +185,18 @@ struct DetailView: View {
                 }
                 Spacer()
             }
-            
-            Stepper(value: $pomodoroLimitNum, in: 4...10) {
-                Text("\(pomodoroLimitNum)回 ポモドロをします")
+            Group {
+                Stepper(value: $pomodoroLimitNum, in: 4...10) {
+                    Text("\(pomodoroLimitNum)回 ポモドロをします")
+                }
+                Stepper(value: $pomodoroWorkingTime, in: 20...30) {
+                    Text("\(pomodoroWorkingTime)分 タスクをします")
+                }
+                Stepper(value: $pomodoroRestTime, in: 4...10) {
+                    Text("\(pomodoroRestTime)分 休憩します")
+                }
             }
-            Stepper(value: $pomodoroWorkingTime, in: 20...30) {
-                Text("\(pomodoroWorkingTime)分 タスクをします")
-            }
-            Stepper(value: $pomodoroRestTime, in: 4...10) {
-                Text("\(pomodoroRestTime)分 休憩します")
-            }
+            .disabled(currentState == .working || currentState == .inRest)
             Spacer()
         }
     }
@@ -220,8 +226,8 @@ class StateHandler {
     var endingDate: Date = Date()
     
     //時間
-    let workingTimeMinutes = 25
-    let restTimeMinutes = 5
+    var workingTimeMinutes = 25
+    var restTimeMinutes = 5
     
     var secondsPassed: TimeInterval = 0
     var passedPhasesCount: Int = 0
@@ -286,20 +292,20 @@ class StateHandler {
         
         NotificationHandler.shared.cancelAllPendingNotifications()
         secondsToBeAdded = inactiveTime
-//        if inactiveTime < secondsUntilNextPhase {
-//            //フェーズが変わる前に復帰
-//            NotificationHandler.shared.cancelAllPendingNotifications()
-//            //すべての残り時間を調整
-//            secondsToBeAdded = inactiveTime
-//        } else if Date() > endingDate {
-//            //フェーズが全て終了後に復帰
-//            //すべての残り時間を調整
-//            secondsToBeAdded = inactiveTime
-//        } else {
-//            //Dictionaryで通知やフェーズが終了してるかを管理
-//            //https://dev.classmethod.jp/articles/about-swiftkeyvaluepairs/
-//            //https://developer.apple.com/documentation/swift/keyvaluepairs
-//        }
+        //        if inactiveTime < secondsUntilNextPhase {
+        //            //フェーズが変わる前に復帰
+        //            NotificationHandler.shared.cancelAllPendingNotifications()
+        //            //すべての残り時間を調整
+        //            secondsToBeAdded = inactiveTime
+        //        } else if Date() > endingDate {
+        //            //フェーズが全て終了後に復帰
+        //            //すべての残り時間を調整
+        //            secondsToBeAdded = inactiveTime
+        //        } else {
+        //            //Dictionaryで通知やフェーズが終了してるかを管理
+        //            //https://dev.classmethod.jp/articles/about-swiftkeyvaluepairs/
+        //            //https://developer.apple.com/documentation/swift/keyvaluepairs
+        //        }
     }
     
     func returnSecondsPassed() -> TimeInterval {
@@ -325,6 +331,14 @@ class StateHandler {
     
     func setWorkNotification(after: TimeInterval) {
         setNotification(title: "タスクの時間です！", msg: "\(workingTimeMinutes)分間、頑張りましょう。", after: after)
+    }
+    
+    func setRestTimeMinutes(min: Int) {
+        restTimeMinutes = min
+    }
+    
+    func setWorkingTimeMinutes(min: Int) {
+        workingTimeMinutes = min
     }
 }
 
