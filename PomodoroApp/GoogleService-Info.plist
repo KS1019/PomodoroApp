@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>545019460026-efnthkb8eh7su6kk87mnk1j35j32a4eb.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.545019460026-efnthkb8eh7su6kk87mnk1j35j32a4eb</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD9eeC4C5mPv8usyZ7-OyMn5wgAFkmNxJk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>545019460026</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>Suto.Kotaro.PomodoroApp</string>
+	<key>PROJECT_ID</key>
+	<string>pomodorerapp</string>
+	<key>STORAGE_BUCKET</key>
+	<string>pomodorerapp.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:545019460026:ios:556112622ad66adf8e0583</string>
+	<key>DATABASE_URL</key>
+	<string>https://pomodorerapp.firebaseio.com</string>
+</dict>
+</plist>
