@@ -197,7 +197,9 @@ struct DetailView: View {
                 }
             }
             .disabled(currentState == .working || currentState == .inRest)
+            .padding(.bottom, 20)
             Spacer()
+            AdmobView()
         }
     }
 }
