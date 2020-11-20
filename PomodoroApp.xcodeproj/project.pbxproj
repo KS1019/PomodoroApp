@@ -3,13 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		156E292BA566B6E93EF59E9E /* Pods_PomodoroApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95BB77E6828E00C7BC43B6CD /* Pods_PomodoroApp.framework */; };
 		467ABE00E9A1A06D6250308C /* Pods_PomodoroApp_PomodoroAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EFDF10866CB73089751E092 /* Pods_PomodoroApp_PomodoroAppUITests.framework */; };
 		7C0E1F9925670F8D009019BB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7C0E1F9825670F8D009019BB /* GoogleService-Info.plist */; };
+		7C0E2004256829A0009019BB /* AdmobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0E2003256829A0009019BB /* AdmobView.swift */; };
 		7C4422232549D263009743F8 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C4422222549D263009743F8 /* Icon.png */; };
 		7C9E1AE7250FACF10012BBDF /* NotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E1AE6250FACF10012BBDF /* NotificationHandler.swift */; };
 		7CBB3B3624CCC9E000401A1D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBB3B3524CCC9E000401A1D /* AppDelegate.swift */; };
@@ -46,6 +47,7 @@
 		66E7F9A3BA778701FF8991C2 /* Pods-PomodoroApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PomodoroApp.debug.xcconfig"; path = "Target Support Files/Pods-PomodoroApp/Pods-PomodoroApp.debug.xcconfig"; sourceTree = "<group>"; };
 		69CAE2FAC33844254DD2D917 /* Pods-PomodoroAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PomodoroAppTests.debug.xcconfig"; path = "Target Support Files/Pods-PomodoroAppTests/Pods-PomodoroAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7C0E1F9825670F8D009019BB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7C0E2003256829A0009019BB /* AdmobView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdmobView.swift; sourceTree = "<group>"; };
 		7C4422222549D263009743F8 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		7C9E1AE6250FACF10012BBDF /* NotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHandler.swift; sourceTree = "<group>"; };
 		7CBB3B3224CCC9E000401A1D /* PomodoroApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PomodoroApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -139,6 +141,7 @@
 				7CBB3B3B24CCC9E200401A1D /* Assets.xcassets */,
 				7CBB3B4024CCC9E200401A1D /* LaunchScreen.storyboard */,
 				7CBB3B4324CCC9E200401A1D /* Info.plist */,
+				7C0E2003256829A0009019BB /* AdmobView.swift */,
 				7CBB3B3D24CCC9E200401A1D /* Preview Content */,
 			);
 			path = PomodoroApp;
@@ -190,7 +193,6 @@
 				69CAE2FAC33844254DD2D917 /* Pods-PomodoroAppTests.debug.xcconfig */,
 				C9F6E8B4340975EB4B1CDEA0 /* Pods-PomodoroAppTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -437,6 +439,7 @@
 			files = (
 				7CBB3B3624CCC9E000401A1D /* AppDelegate.swift in Sources */,
 				7C9E1AE7250FACF10012BBDF /* NotificationHandler.swift in Sources */,
+				7C0E2004256829A0009019BB /* AdmobView.swift in Sources */,
 				7CBB3B3824CCC9E000401A1D /* SceneDelegate.swift in Sources */,
 				7CBB3B3A24CCC9E000401A1D /* ContentView.swift in Sources */,
 			);
