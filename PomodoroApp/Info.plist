@@ -3,9 +3,11 @@
 <plist version="1.0">
 <dict>
     <key>GADApplicationIdentifier</key>
-    <string>ca-app-pub-3940256099942544~1458002511</string>
+    <string>ca-app-pub-4588764854563805~5794105782</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>Pomodoro</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
