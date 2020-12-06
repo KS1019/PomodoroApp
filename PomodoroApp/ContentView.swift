@@ -275,7 +275,9 @@ class StateHandler {
             if i == numOfPhasesLeft - 1 {
                 //totalSecondsAdded + workingTimeMinutes*60秒後に終了の通知
                 totalSecondsAdded += Double(workingTimeMinutes*60)
-                setNotification(title: "ポモドーロ終了", msg: "ポモドーロサイクルが終了しました。さらに続ける場合はアプリを起動して下さい。", after: totalSecondsAdded)
+                setNotification(title: NSLocalizedString("pomodoro_ended", comment: ""),
+                                msg: NSLocalizedString("pomodoro_end_msg", comment: ""),
+                                after: totalSecondsAdded)
             } else {
                 //totalSecondsAdded + workingTimeMinutes*60秒後に休憩中の通知
                 totalSecondsAdded += Double(workingTimeMinutes*60)
@@ -328,11 +330,13 @@ class StateHandler {
     }
     
     func setRestNotification(after: TimeInterval) {
-        setNotification(title: "休憩の時間です！", msg: "\(restTimeMinutes)分間の休息をとりましょう。", after: after)
+        setNotification(title: NSLocalizedString("time_for_rest", comment: ""),
+                        msg: String(format: NSLocalizedString("take_%lld_min_rest", comment: ""), restTimeMinutes), after: after)
     }
     
     func setWorkNotification(after: TimeInterval) {
-        setNotification(title: "タスクの時間です！", msg: "\(workingTimeMinutes)分間、頑張りましょう。", after: after)
+        setNotification(title: NSLocalizedString("time_for_task", comment: ""),
+                        msg: String(format: NSLocalizedString("do_work_for_%lld_min", comment: ""), workingTimeMinutes), after: after)
     }
     
     func setRestTimeMinutes(min: Int) {
