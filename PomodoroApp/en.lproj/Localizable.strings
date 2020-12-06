@@ -11,3 +11,15 @@
 "will_do_tasks_for_%lld_min" = "Set task time for %lld minutes.";
 
 "will_do_rest_for_%lld_min" = "Set rest time for %lld minutes.";
+
+"time_for_rest" = "It's time for some rest!";
+
+"time_for_task" = "Let's get some work done!";
+
+"pomodoro_ended" = "Pomodoro sets has ended!";
+
+"take_%lld_min_rest" = "Let's take %lld minutes rest!";
+
+"do_work_for_%lld_min" = "%lld minutes to get tasks done!";
+
+"pomodoro_end_msg" = "If you want to start another sets, please restart.";

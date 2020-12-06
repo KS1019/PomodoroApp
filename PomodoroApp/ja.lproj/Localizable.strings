@@ -9,3 +9,15 @@
 "will_do_%lld_times_of_pomodoro" = "%lld回 ポモドロをします";
 "will_do_tasks_for_%lld_min" = "%lld分 タスクをします";
 "will_do_rest_for_%lld_min" = "%lld分 休憩します";
+
+"time_for_rest" = "休憩の時間です！";
+
+"time_for_task" = "タスクの時間です！";
+
+"pomodoro_ended" = "ポモドーロ終了";
+
+"take_%lld_min_rest" = "%lld分間の休息をとりましょう。";
+
+"do_work_for_%lld_min" = "%lld分間、頑張りましょう。";
+
+"pomodoro_end_msg" = "ポモドーロサイクルが終了しました。さらに続ける場合はアプリを起動して下さい。";
