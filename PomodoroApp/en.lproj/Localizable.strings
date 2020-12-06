@@ -5,3 +5,9 @@
   Created by Kotaro Suto on 2020/12/07.
   Copyright © 2020 Kotaro Suto. All rights reserved.
 */
+
+"will_do_%@_times_of_pomodoro" = "Do pomodoro %@ sets."
+
+"will_do_tasks_for_%@_min" = "Set task time for %@ minutes."
+
+"will_do_rest_for_%@_min" = "Set rest time for %@ minutes."

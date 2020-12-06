@@ -5,3 +5,7 @@
   Created by Kotaro Suto on 2020/12/07.
   Copyright © 2020 Kotaro Suto. All rights reserved.
 */
+
+"will_do_%@_times_of_pomodoro" = "%@回 ポモドロをします"
+"will_do_tasks_for_%@_min" = "%@分 タスクをします"
+"will_do_rest_for_%@_min" = "%@分 休憩します"

@@ -187,13 +187,13 @@ struct DetailView: View {
             }
             Group {
                 Stepper(value: $pomodoroLimitNum, in: 4...10) {
-                    Text("\(pomodoroLimitNum)回 ポモドロをします")
+                    Text("will_do_\(pomodoroLimitNum)_times_of_pomodoro")
                 }
                 Stepper(value: $pomodoroWorkingTime, in: 20...30) {
-                    Text("\(pomodoroWorkingTime)分 タスクをします")
+                    Text("will_do_tasks_for_\(pomodoroWorkingTime)_min")
                 }
                 Stepper(value: $pomodoroRestTime, in: 4...10) {
-                    Text("\(pomodoroRestTime)分 休憩します")
+                    Text("will_do_rest_for_\(pomodoroRestTime)_min")
                 }
             }
             .disabled(currentState == .working || currentState == .inRest)
