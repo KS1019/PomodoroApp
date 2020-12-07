@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>This identifier will be used to deliver personalized ads to you.</string>
 	<key>CLIENT_ID</key>
 	<string>545019460026-efnthkb8eh7su6kk87mnk1j35j32a4eb.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
