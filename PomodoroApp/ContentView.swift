@@ -161,7 +161,7 @@ struct ProgressBar: View {
                 .stroke(style: StrokeStyle(lineWidth: 20.0, lineCap: .round, lineJoin: .round))
                 .foregroundColor(color)
                 .rotationEffect(Angle(degrees: 270.0))
-                .animation(.linear)
+                .animation(.linear, value: 0)
         }
     }
 }
