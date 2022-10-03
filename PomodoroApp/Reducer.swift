@@ -8,10 +8,10 @@ let pomodoroReducer = Reducer<PomodoroState, PomodoroAction, PomodoroEnvironment
 
     switch action {
         case .pomodoroStarted:
-            let workingSessionTime: TimeInterval = TimeInterval(60 * state.workingTime)
-            let restSessionTime: TimeInterval = TimeInterval(60 * state.restTime)
+            let workingSessionTime: TimeInterval = TimeInterval(60 * state.workingTimeMinutes)
+            let restSessionTime: TimeInterval = TimeInterval(60 * state.restTimeMinutes)
             environment.notification.askPermission()
-            // state.currentState = .working
+            state.pomodoroFlag = .working
             state.progressValue = 0
             state.secondsPassed = 0
             state.minutes = 0
@@ -48,15 +48,13 @@ let pomodoroReducer = Reducer<PomodoroState, PomodoroAction, PomodoroEnvironment
             state.minutes = Int(state.secondsPassed / 60)
             state.seconds = Int(state.secondsPassed) % 60
             if state.pomodoroFlag == .working {
-                state.progressValue = state.secondsPassed / Double(state.workingTime)
+                state.progressValue = state.secondsPassed / Double(state.workingTimeMinutes * 60)
             } else if state.pomodoroFlag == .inRest {
-                state.progressValue = state.secondsPassed / Double(state.restTime)
+                state.progressValue = state.secondsPassed / Double(state.restTimeMinutes * 60)
             }
             if state.progressValue >= 1 {
                 state.pomodoroFlag = state.pomodoroFlag == .working ? .inRest : .working
             }
-            print("TEST")
-            print(state.secondsPassed)
             return .none
         case .pomodoroFinished:
             return .none
@@ -73,10 +71,10 @@ let pomodoroReducer = Reducer<PomodoroState, PomodoroAction, PomodoroEnvironment
             state.pomodoroLimit = to
             return .none
         case .setWorkingTime(let to):
-            state.workingTime = to
+            state.workingTimeMinutes = to
             return .none
         case .setRestTime(let to):
-            state.restTime = to
+            state.restTimeMinutes = to
             return .none
         case .appInactivated(let date):
 //            //state.becameInactiveAt = date

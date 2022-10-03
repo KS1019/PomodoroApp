@@ -26,7 +26,6 @@ struct StartButton: View {
     }
 }
 
-
 struct PomodoroTimerView: View {
     let store: Store<PomodoroState, PomodoroAction>
 

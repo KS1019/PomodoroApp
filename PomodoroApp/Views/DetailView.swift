@@ -30,13 +30,13 @@ struct DetailView: View {
                                                          send: PomodoroAction.setPomodoroLimit(to:)), in: 4...10) {
                             Text("will_do_\(viewStore.pomodoroLimit)_times_of_pomodoro")
                         }
-                        Stepper(value: viewStore.binding(get: \.workingTime,
+                        Stepper(value: viewStore.binding(get: \.workingTimeMinutes,
                                                          send: PomodoroAction.setWorkingTime(to:)), in: 20...30) {
-                            Text("will_do_tasks_for_\(viewStore.workingTime)_min")
+                            Text("will_do_tasks_for_\(viewStore.workingTimeMinutes)_min")
                         }
-                        Stepper(value: viewStore.binding(get: \.restTime,
+                        Stepper(value: viewStore.binding(get: \.restTimeMinutes,
                                                          send: PomodoroAction.setRestTime(to:)), in: 4...10) {
-                            Text("will_do_rest_for_\(viewStore.restTime)_min")
+                            Text("will_do_rest_for_\(viewStore.restTimeMinutes)_min")
                         }
                     }
                     .scrollContentBackground(.hidden)

@@ -26,10 +26,6 @@ struct PomodoroState: Equatable {
     var pomodoroLimit: Int = 4
     var showingDetail = false
 
-    //時間
-    var workingTime = 25
-    var restTime = 5
-
     // Variables for Timer Formatting
     var minutes: Int = 0
     var seconds: Int = 0
