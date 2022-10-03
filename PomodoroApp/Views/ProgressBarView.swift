@@ -4,9 +4,6 @@ import ComposableArchitecture
 struct ProgressBar: View {
     let store: Store<PomodoroState, PomodoroAction>
 
-//    @Binding var progress: Double
-//    @Binding var color: Color
-
     var body: some View {
         WithViewStore(store) { viewStore in
             ZStack {
@@ -30,9 +27,3 @@ struct ProgressBar: View {
         }
     }
 }
-
-//struct ProgressBar_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ProgressBar(progress: .constant(100), color: .constant(.blue))
-//    }
-//}

@@ -2,12 +2,6 @@ import SwiftUI
 import ComposableArchitecture
 
 struct DetailView: View {
-//    @Binding var showingDetail: Bool
-//    @Binding var pomodoroLimitNum: Int
-//    @Binding var pomodoroWorkingTime: Int
-//    @Binding var pomodoroRestTime: Int
-//    @Binding var currentState: PomodoroState
-
     let store: Store<PomodoroState, PomodoroAction>
     var body: some View {
         WithViewStore(store) { viewStore in
@@ -50,8 +44,25 @@ struct DetailView: View {
     }
 }
 
-//struct DetailView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DetailView(showingDetail: false, pomodoroLimitNum: 0, pomodoroWorkingTime: 0, pomodoroRestTime: 0, currentState: .finished)
-//    }
-//}
+struct DetailViewButton: View {
+    let store: Store<PomodoroState, PomodoroAction>
+
+    var body: some View {
+        WithViewStore(store) { viewStore in
+            Button(action: {
+                viewStore.send(.detailViewButtonTapped)
+            }) {
+                Image(systemName: "gear")
+                    .font(.system(size: 30))
+                    .foregroundColor(.black)
+                    .padding()
+            }
+            .sheet(isPresented: viewStore.binding(
+                get: \.showingDetail,
+                send: PomodoroAction.setShowingDetail(to:)
+            )) {
+                DetailView(store: store)
+            }
+        }
+    }
+}

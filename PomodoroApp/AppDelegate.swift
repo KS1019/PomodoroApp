@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  PomodoroApp
-//
-//  Created by Kotaro Suto on 2020/07/26.
-//  Copyright © 2020 Kotaro Suto. All rights reserved.
-//
-
 import UIKit
 import Firebase
 import ComposableArchitecture
