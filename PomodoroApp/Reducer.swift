@@ -27,23 +27,19 @@ let pomodoroReducer = Reducer<PomodoroState, PomodoroAction, PomodoroEnvironment
                     state.pomodoroFlag = .finished
                 }
             }
-//            state.endingDate = Date().addingTimeInterval(workingSessionTime * 4 + restSessionTime * 3)
-//            state.wor
-//            StateHandler.shared.setWorkingTimeMinutes(min: workingTime)
-//            StateHandler.shared.setRestTimeMinutes(min: restTime)
             return Effect
                 .timer(id: TimerID(), every: DispatchQueue.SchedulerTimeType.Stride(floatLiteral: incrementSecond), on: environment.mainQueue)
                 .map { _ in .pomodoroIncrementSecond }
         case .pomodoroIncrementSecond:
-//            state.secondsPassed += {
-//                if secondsToBeAdded > 0 {
-//                    let temp = secondsToBeAdded
-//                    secondsToBeAdded = 0
-//                    return temp
-//                }
-//
-//                return 0
-//            }()
+            state.secondsPassed += {
+                if state.secondsToBeAdded > 0 {
+                    let temp = state.secondsToBeAdded
+                    state.secondsToBeAdded = 0
+                    return temp
+                }
+
+                return 0
+            }()
             state.secondsPassed += incrementSecond
             state.minutes = Int(state.secondsPassed / 60)
             state.seconds = Int(state.secondsPassed) % 60
@@ -53,7 +49,10 @@ let pomodoroReducer = Reducer<PomodoroState, PomodoroAction, PomodoroEnvironment
                 state.progressValue = state.secondsPassed / Double(state.restTimeMinutes * 60)
             }
             if state.progressValue >= 1 {
+                state.secondsPassed = 0
+                state.progressValue = 0
                 state.pomodoroFlag = state.pomodoroFlag == .working ? .inRest : .working
+                state.progressColor = state.pomodoroFlag == .working ? .red : .black
             }
             return .none
         case .pomodoroFinished:
@@ -77,65 +76,63 @@ let pomodoroReducer = Reducer<PomodoroState, PomodoroAction, PomodoroEnvironment
             state.restTimeMinutes = to
             return .none
         case .appInactivated(let date):
-//            //state.becameInactiveAt = date
-//            var totalSecondsAdded: TimeInterval = 0
-//            if state.pomodoroFlag == .working {
-//                state.secondsUntilNextPhase = Double(state.workingTimeMinutes * 60) - state.secondsPassed
-//
-//                // secondsUntilNextPhase秒後に休憩中の通知
-//                totalSecondsAdded += state.secondsUntilNextPhase
-//                environment.notification.setNotification(
-//                    title: NSLocalizedString("time_for_rest", comment: ""),
-//                    msg: String(format: NSLocalizedString("take_%lld_min_rest", comment: ""), state.restTimeMinutes),
-//                    after: totalSecondsAdded)
-//
-//                // totalSecondsAdded + restTimeMinutes*60秒後にタスク中の通知
-//                totalSecondsAdded += Double(state.restTimeMinutes*60)
-//                environment.notification.setNotification(
-//                    title: NSLocalizedString("time_for_task", comment: ""),
-//                    msg: String(format: NSLocalizedString("do_work_for_%lld_min", comment: ""), state.workingTimeMinutes),
-//                    after: totalSecondsAdded)
-//            } else if state.currentState == .inRest {
-//                state.secondsUntilNextPhase = Double(state.restTimeMinutes * 60) - state.secondsPassed
-//                // secondsUntilNextPhase秒後にタスク中の通知
-//                totalSecondsAdded += state.secondsUntilNextPhase
-//                environment.notification.setNotification(
-//                    title: NSLocalizedString("time_for_task", comment: ""),
-//                    msg: String(format: NSLocalizedString("do_work_for_%lld_min", comment: ""), state.workingTimeMinutes),
-//                    after: totalSecondsAdded)
-//            }
-//
-//            let numOfPhasesLeft = 3 - state.passedPhasesCount
-//            for i in 0 ..< numOfPhasesLeft {
-//                if i == numOfPhasesLeft - 1 {
-//                    //totalSecondsAdded + workingTimeMinutes*60秒後に終了の通知
-//                    totalSecondsAdded += Double(state.workingTimeMinutes*60)
-//                    environment.notification.setNotification(title: NSLocalizedString("pomodoro_ended", comment: ""),
-//                                    msg: NSLocalizedString("pomodoro_end_msg", comment: ""),
-//                                    after: totalSecondsAdded)
-//                } else {
-//                    //totalSecondsAdded + workingTimeMinutes*60秒後に休憩中の通知
-//                    totalSecondsAdded += Double(state.workingTimeMinutes*60)
-//                    environment.notification.setNotification(
-//                        title: NSLocalizedString("time_for_rest", comment: ""),
-//                        msg: String(format: NSLocalizedString("take_%lld_min_rest", comment: ""), state.restTimeMinutes),
-//                        after: totalSecondsAdded)
-//                    //totalSecondsAdded + restTimeMinutes*60秒後にタスク中の通知
-//                    totalSecondsAdded += Double(state.restTimeMinutes*60)
-//                    environment.notification.setNotification(
-//                        title: NSLocalizedString("time_for_task", comment: ""),
-//                        msg: String(format: NSLocalizedString("do_work_for_%lld_min", comment: ""), state.workingTimeMinutes),
-//                        after: totalSecondsAdded)
-//                }
-//            }
+            state.becameInactiveAt = date
+            var totalSecondsAdded: TimeInterval = 0
+            if state.pomodoroFlag == .working {
+                state.secondsUntilNextPhase = Double(state.workingTimeMinutes * 60) - state.secondsPassed
+                // secondsUntilNextPhase秒後に休憩中の通知
+                totalSecondsAdded += state.secondsUntilNextPhase
+                environment.notification.setNotification(
+                    title: NSLocalizedString("time_for_rest", comment: ""),
+                    msg: String(format: NSLocalizedString("take_%lld_min_rest", comment: ""), state.restTimeMinutes),
+                    after: totalSecondsAdded)
+
+                // totalSecondsAdded + restTimeMinutes*60秒後にタスク中の通知
+                totalSecondsAdded += Double(state.restTimeMinutes*60)
+                environment.notification.setNotification(
+                    title: NSLocalizedString("time_for_task", comment: ""),
+                    msg: String(format: NSLocalizedString("do_work_for_%lld_min", comment: ""), state.workingTimeMinutes),
+                    after: totalSecondsAdded)
+            } else if state.pomodoroFlag == .inRest {
+                state.secondsUntilNextPhase = Double(state.restTimeMinutes * 60) - state.secondsPassed
+                // secondsUntilNextPhase秒後にタスク中の通知
+                totalSecondsAdded += state.secondsUntilNextPhase
+                environment.notification.setNotification(
+                    title: NSLocalizedString("time_for_task", comment: ""),
+                    msg: String(format: NSLocalizedString("do_work_for_%lld_min", comment: ""), state.workingTimeMinutes),
+                    after: totalSecondsAdded)
+            }
+            let numOfPhasesLeft = 3 - state.passedPhasesCount
+            for i in 0 ..< numOfPhasesLeft {
+                if i == numOfPhasesLeft - 1 {
+                    //totalSecondsAdded + workingTimeMinutes*60秒後に終了の通知
+                    totalSecondsAdded += Double(state.workingTimeMinutes*60)
+                    environment.notification.setNotification(title: NSLocalizedString("pomodoro_ended", comment: ""),
+                                    msg: NSLocalizedString("pomodoro_end_msg", comment: ""),
+                                    after: totalSecondsAdded)
+                } else {
+                    //totalSecondsAdded + workingTimeMinutes*60秒後に休憩中の通知
+                    totalSecondsAdded += Double(state.workingTimeMinutes*60)
+                    environment.notification.setNotification(
+                        title: NSLocalizedString("time_for_rest", comment: ""),
+                        msg: String(format: NSLocalizedString("take_%lld_min_rest", comment: ""), state.restTimeMinutes),
+                        after: totalSecondsAdded)
+                    //totalSecondsAdded + restTimeMinutes*60秒後にタスク中の通知
+                    totalSecondsAdded += Double(state.restTimeMinutes*60)
+                    environment.notification.setNotification(
+                        title: NSLocalizedString("time_for_task", comment: ""),
+                        msg: String(format: NSLocalizedString("do_work_for_%lld_min", comment: ""), state.workingTimeMinutes),
+                        after: totalSecondsAdded)
+                }
+            }
 
             return .none
         case .appActivated(let date):
-//            state.becameActiveAt = date
-//            let inactiveTime = state.becameActiveAt.timeIntervalSince(state.becameInactiveAt)
-//
-//            environment.notification.cancelAllPendingNotifications()
-//            state.secondsToBeAdded = inactiveTime
+            state.becameActiveAt = date
+            let inactiveTime = state.becameActiveAt.timeIntervalSince(state.becameInactiveAt)
+
+            environment.notification.cancelAllPendingNotifications()
+            state.secondsToBeAdded = inactiveTime
             return .none
     }
 }

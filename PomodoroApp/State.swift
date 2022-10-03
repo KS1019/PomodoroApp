@@ -4,16 +4,11 @@ import ComposableArchitecture
 
 struct PomodoroState: Equatable {
     // Codes for when app becomes inactive
-//    var becameInactiveAt: Date = Date()
-//    var becameActiveAt: Date = Date()
-//    var currentState: PomodoroStatus = .finished
-//    var secondsUntilNextPhase: TimeInterval = 0
-//
-//    var endingDate: Date = Date()
-//    var secondsPassed: TimeInterval = 0
-//    var passedPhasesCount: Int = 0
-//
-//    var secondsToBeAdded: TimeInterval = 0
+    var becameInactiveAt: Date = Date()
+    var becameActiveAt: Date = Date()
+    var secondsUntilNextPhase: TimeInterval = 0
+    var passedPhasesCount: Int = 0
+    var secondsToBeAdded: TimeInterval = 0
 
     // Configuable
     var workingTimeMinutes = 25
