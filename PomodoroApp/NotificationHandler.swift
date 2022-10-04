@@ -96,4 +96,11 @@ class NotificationHandler {
     func cancelPendingNotifications(with identifiers: [String]) {
         center.removePendingNotificationRequests(withIdentifiers: identifiers)
     }
+
+    func setNotification(title: String, msg: String, after: TimeInterval) {
+        let uuid = UUID().uuidString
+        let req = NotificationHandler.shared.requestLocalNotification(requestID: uuid, title: title, message: msg, after: after)
+
+        NotificationHandler.shared.add(notificationRequest: req)
+    }
 }
