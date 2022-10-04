@@ -7,6 +7,7 @@ struct DetailView: View {
         WithViewStore(store) { viewStore in
             ZStack {
                 Color.offWhite
+                    .edgesIgnoringSafeArea(.all)
                 VStack {
                     HStack {
                         Button(action: {
