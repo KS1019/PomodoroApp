@@ -60,9 +60,6 @@ let pomodoroReducer = Reducer<PomodoroState, PomodoroAction, PomodoroEnvironment
     case .detailViewButtonTapped:
         state.showingDetail = true
         return .none
-    case .cancelButtonTapped:
-        state.showingDetail = false
-        return .none
     case let .setShowingDetail(to):
         state.showingDetail = to
         return .none
