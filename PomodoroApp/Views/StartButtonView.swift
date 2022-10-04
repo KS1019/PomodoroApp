@@ -1,5 +1,5 @@
-import SwiftUI
 import ComposableArchitecture
+import SwiftUI
 
 struct StartButton: View {
     let store: Store<PomodoroState, PomodoroAction>

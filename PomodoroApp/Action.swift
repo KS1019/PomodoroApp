@@ -1,5 +1,5 @@
-import Foundation
 import ComposableArchitecture
+import Foundation
 
 public enum PomodoroAction: Equatable {
     case pomodoroStarted

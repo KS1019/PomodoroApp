@@ -1,11 +1,11 @@
+import ComposableArchitecture
 import Foundation
 import SwiftUI
-import ComposableArchitecture
 
 struct PomodoroState: Equatable {
     // Codes for when app becomes inactive
-    var becameInactiveAt: Date = Date()
-    var becameActiveAt: Date = Date()
+    var becameInactiveAt: Date = .init()
+    var becameActiveAt: Date = .init()
     var secondsUntilNextPhase: TimeInterval = 0
     var passedPhasesCount: Int = 0
     var secondsToBeAdded: TimeInterval = 0
@@ -15,7 +15,7 @@ struct PomodoroState: Equatable {
     var restTimeMinutes = 5
 
     var progressValue: Double = 0
-    var progressColor: Color = Color.red
+    var progressColor: Color = .red
     var pomodoroFlag: PomodoroStatus = .finished
     var pomodoroCount: Int = 0
     var pomodoroLimit: Int = 4
@@ -25,11 +25,11 @@ struct PomodoroState: Equatable {
     var minutes: Int = 0
     var seconds: Int = 0
 
-    //時間
+    // 時間
     var secondsPassed: TimeInterval = 0
 }
 
-enum PomodoroStatus{
+enum PomodoroStatus {
     case working
     case inRest
     case finished

@@ -1,30 +1,20 @@
-//
-//  AdmobView.swift
-//  PomodoroApp
-//
-//  Created by Kotaro Suto on 2020/11/21.
-//  Copyright © 2020 Kotaro Suto. All rights reserved.
-//
-
-import SwiftUI
 import GoogleMobileAds
-
+import SwiftUI
 
 struct AdmobView: UIViewRepresentable {
-    func makeUIView(context: Context) -> GADBannerView {
+    func makeUIView(context _: Context) -> GADBannerView {
         let banner = GADBannerView(adSize: GADAdSizeBanner)
         #if DEBUG
-        banner.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+            banner.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         #else
-        banner.adUnitID = "ca-app-pub-4588764854563805/4203830120"
+            banner.adUnitID = "ca-app-pub-4588764854563805/4203830120"
         #endif
         banner.rootViewController = UIApplication.shared.windows.first?.rootViewController
         banner.load(GADRequest())
         return banner
     }
-    
-    func updateUIView(_ uiView: GADBannerView, context: Context) {
-    }
+
+    func updateUIView(_: GADBannerView, context _: Context) {}
 }
 
 struct AdmobView_Previews: PreviewProvider {

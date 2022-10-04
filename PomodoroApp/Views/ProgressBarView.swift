@@ -1,5 +1,5 @@
-import SwiftUI
 import ComposableArchitecture
+import SwiftUI
 
 struct ProgressBar: View {
     let store: Store<PomodoroState, PomodoroAction>
