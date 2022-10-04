@@ -1,5 +1,5 @@
-import SwiftUI
 import ComposableArchitecture
+import SwiftUI
 
 struct PomodoroTimerView: View {
     let store: Store<PomodoroState, PomodoroAction>
@@ -13,7 +13,7 @@ struct PomodoroTimerView: View {
                     .shadow(color: Color.black.opacity(0.2), radius: 10, x: 10, y: 10)
                     .shadow(color: Color.white.opacity(0.7), radius: 10, x: -5, y: -5)
 
-                Text(String(format:"%02i:%02i", viewStore.minutes, viewStore.seconds))
+                Text(String(format: "%02i:%02i", viewStore.minutes, viewStore.seconds))
                     .font(.largeTitle)
                     .bold()
             }

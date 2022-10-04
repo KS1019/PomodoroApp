@@ -1,16 +1,18 @@
-import UIKit
-import SwiftUI
 import ComposableArchitecture
+import SwiftUI
+import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    let store =  Store(
+    let store = Store(
         initialState: PomodoroState(),
         reducer: pomodoroReducer,
         environment: PomodoroEnvironment(
-            notification: NotificationHandler.shared, mainQueue: .main))
+            notification: NotificationHandler.shared, mainQueue: .main
+        )
+    )
     var window: UIWindow?
 
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+    func scene(_ scene: UIScene, willConnectTo _: UISceneSession, options _: UIScene.ConnectionOptions) {
         let mainView = ContentView(store: store)
 
         if let windowScene = scene as? UIWindowScene {
@@ -21,20 +23,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
 
-    func sceneDidDisconnect(_ scene: UIScene) {
+    func sceneDidDisconnect(_: UIScene) {
         NotificationHandler.shared.cancelAllPendingNotifications()
     }
 
-    func sceneDidBecomeActive(_ scene: UIScene) {
+    func sceneDidBecomeActive(_: UIScene) {
         ViewStore(store).send(.appActivated(Date()))
     }
 
-    func sceneWillResignActive(_ scene: UIScene) {
+    func sceneWillResignActive(_: UIScene) {
         ViewStore(store).send(.appInactivated(Date()))
     }
 
-    func sceneWillEnterForeground(_ scene: UIScene) {}
+    func sceneWillEnterForeground(_: UIScene) {}
 
-    func sceneDidEnterBackground(_ scene: UIScene) {}
+    func sceneDidEnterBackground(_: UIScene) {}
 }
-
