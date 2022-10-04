@@ -1,6 +1,0 @@
-framework module Pods_PomodoroAppTests {
-  umbrella header "Pods-PomodoroAppTests-umbrella.h"
-
-  export *
-  module * { export * }
-}

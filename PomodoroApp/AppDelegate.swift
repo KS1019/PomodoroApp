@@ -1,5 +1,6 @@
 import UIKit
 import Firebase
+import GoogleMobileAds
 import ComposableArchitecture
 
 @UIApplicationMain
