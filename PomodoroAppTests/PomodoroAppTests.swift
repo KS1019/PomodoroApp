@@ -6,8 +6,8 @@
 //  Copyright © 2020 Kotaro Suto. All rights reserved.
 //
 
-@testable import PomodoroApp
 import XCTest
+@testable import PomodoroApp
 
 class PomodoroAppTests: XCTestCase {
     override func setUpWithError() throws {
