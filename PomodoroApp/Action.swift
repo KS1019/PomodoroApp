@@ -6,6 +6,7 @@ public enum PomodoroAction: Equatable {
     case pomodoroIncrementSecond
     case pomodoroFinished
     case detailViewButtonTapped
+    case setIsHistoryViewShown(to: Bool)
     case setShowingDetail(to: Bool)
     case setPomodoroLimit(to: Int)
     case setWorkingTime(to: Int)

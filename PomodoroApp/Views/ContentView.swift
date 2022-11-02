@@ -23,6 +23,7 @@ struct ContentView: View {
                     HStack {
                         DetailViewButton(store: store)
                         Spacer()
+                        HistoryViewButton(store: store)
                     }
                     Spacer()
                 }

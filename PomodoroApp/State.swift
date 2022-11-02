@@ -20,8 +20,7 @@ struct PomodoroState: Equatable {
     var pomodoroCount: Int = 0
     var pomodoroLimit: Int = 4
     var showingDetail = false
-
-    // Variables for Timer Formatting
+    var isHistoryViewShown = false
     var minutes: Int = 0
     var seconds: Int = 0
 

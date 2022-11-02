@@ -28,6 +28,15 @@
       }
     },
     {
+      "identity" : "defaultswrapper",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Pyroh/DefaultsWrapper",
+      "state" : {
+        "revision" : "4a7196963e3e7f15e449ac3c80febb1ab86aa83b",
+        "version" : "3.2.4"
+      }
+    },
+    {
       "identity" : "firebase-ios-sdk",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk",
@@ -97,6 +106,15 @@
       "state" : {
         "revision" : "819d0a2173aff699fb8c364b6fb906f7cdb1a692",
         "version" : "2.30909.0"
+      }
+    },
+    {
+      "identity" : "optionaltype",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Pyroh/OptionalType.git",
+      "state" : {
+        "revision" : "118c5144c97c4bf718a2f304a02976dbd94e0103",
+        "version" : "1.2.1"
       }
     },
     {

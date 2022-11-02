@@ -11,22 +11,13 @@ let pomodoroReducer = Reducer<PomodoroState, PomodoroAction, PomodoroEnvironment
         let workingSessionTime = TimeInterval(60 * state.workingTimeMinutes)
         let restSessionTime = TimeInterval(60 * state.restTimeMinutes)
         environment.notification.askPermission()
+        environment.history.append(Date())
+
         state.pomodoroFlag = .working
         state.progressValue = 0
         state.secondsPassed = 0
-        state.minutes = 0
-        state.seconds = 0
-        if state.pomodoroFlag == .working {
-            state.progressColor = Color.red
-        } else if state.pomodoroFlag == .inRest {
-            state.pomodoroCount += 1
-            // state.passedPhasesCount += count
-            if state.pomodoroCount < state.pomodoroLimit {
-                state.progressColor = Color.black
-            } else {
-                state.pomodoroFlag = .finished
-            }
-        }
+        state.progressColor = Color.red
+
         return Effect
             .timer(id: TimerID(), every: DispatchQueue.SchedulerTimeType.Stride(floatLiteral: incrementSecond), on: environment.mainQueue)
             .map { _ in .pomodoroIncrementSecond }
@@ -62,6 +53,9 @@ let pomodoroReducer = Reducer<PomodoroState, PomodoroAction, PomodoroEnvironment
         return .none
     case let .setShowingDetail(to):
         state.showingDetail = to
+        return .none
+    case let .setIsHistoryViewShown(to):
+        state.isHistoryViewShown = to
         return .none
     case let .setPomodoroLimit(to):
         state.pomodoroLimit = to
